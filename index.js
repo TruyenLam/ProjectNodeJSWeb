@@ -19,6 +19,15 @@ app.set('view engine', 'hbs');
 app.get('/', function(req, res) {
     res.render('index');
 });
+
+app.get('/sync', function(req, res) {
+    let models = require('./models');
+    models.sequelize.sync()
+    .then(() =>{
+        res.send('database sync successful');
+    });
+});
+
 app.get('/:page', function(req, res) {
     let banners = {
         blog :'Out Blog',
