@@ -16,9 +16,12 @@ app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
 
 //cac routes
-app.get('/', function(req, res) {
-    res.render('index');
-});
+// index
+
+///product => category
+
+app.use('/',require('./routes/indexRouter'));
+app.use('/products',require('./routes/productRouter'));
 
 app.get('/sync', function(req, res) {
     let models = require('./models');
