@@ -7,8 +7,8 @@
         "dialect": "postgres"
     },
     "test": {
-        "username": "postgres",
-        "password": "postgres",
+        "username": "admin",
+        "password": "admin",
         "database": "aromadb",
         "host": "localhost",
         "dialect": "postgres"
