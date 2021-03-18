@@ -21,16 +21,15 @@
       </div>
     </section>
     <!--================ Hero banner start =================-->
-
     <!--================ Hero Carousel start =================-->
     <section class="section-margin mt-0">
-      {{#each categories}}
       <div class="owl-carousel owl-theme hero-carousel">
-        <div class="hero-carousel__slide">
-          <img src="{{imagepath}}" alt="" class="img-fluid">
+        {{#each categories}} 
+          <div class="hero-carousel__slide">
+          <img src="{{dataValues.imagepath}}" alt="" class="img-fluid">
           <a href="#" class="hero-carousel__slideOverlay">
-            <h3>{{name}}</h3>
-            <p>{{summary}}</p>
+            <h3>{{dataValues.name}}</h3>
+            <p>{{dataValues.summary}}</p>
           </a>
         </div>
         {{/each}}

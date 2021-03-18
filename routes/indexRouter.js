@@ -6,6 +6,7 @@ router.get('/',(req, res,next) => {
     categoryController
         .getAll()
         .then(data => {
+            //console.log(data.toString());
             res.locals.categories = data;
             res.render('index');
         })

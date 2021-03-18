@@ -1,7 +1,7 @@
 {
     "development": {
-        "username": "admin",
-        "password": "admin",
+        "username": "postgres",
+        "password": "postgres",
         "database": "aromadb",
         "host": "localhost",
         "dialect": "postgres"
