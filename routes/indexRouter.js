@@ -6,8 +6,14 @@ router.get('/',(req, res,next) => {
     categoryController
         .getAll()
         .then(data => {
-            //console.log(data.toString());
             res.locals.categories = data;
+            let productController = require('../controllers/productController');
+            return productController.getTrendingProducts();
+            
+        })
+        .then(data => {
+            res.locals.trendingProducts = data;
+            console.log(data);
             res.render('index');
         })
         .catch(error => next(error));
