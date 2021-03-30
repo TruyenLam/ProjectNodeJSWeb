@@ -32,8 +32,19 @@ router.get('/',(req, res,next) => {
     
 })
 
-router.get('/:id',(req, res) => {
-    res.render('singleproduct');
+router.get('/:id',(req, res,next) => {
+    console.log('Test param: ' + req.params.id); // "Test param: foo"
+    let productcontroller = require('../controllers/productController');
+    productcontroller
+        .getById(req.params.id)
+        .then(product => {
+            console.log(product);
+            res.locals.product = product;
+            res.render('singleproduct');
+        })
+        .catch(error=> next(error));
+    
+
 })
 
 module.exports = router;
