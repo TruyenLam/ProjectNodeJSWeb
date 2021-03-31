@@ -39,7 +39,8 @@ router.get('/:id',(req, res,next) => {
         .getById(req.params.id)
         .then(product => {
             console.log(product);
-            res.locals.product = product;
+            
+            res.locals.product=product;
             res.render('singleproduct');
         })
         .catch(error=> next(error));
