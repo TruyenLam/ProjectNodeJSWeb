@@ -38,7 +38,7 @@ router.get('/:id',(req, res,next) => {
     productcontroller
         .getById(req.params.id)
         .then(product => {
-            console.log(product);
+            //console.log(product);
             
             res.locals.product=product;
             res.render('singleproduct');
