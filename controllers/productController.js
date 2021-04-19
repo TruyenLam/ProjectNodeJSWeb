@@ -18,14 +18,19 @@ controller.getTrendingProducts = () => {
     })
 }
 
-controller.getAll = () => {
+controller.getAll = (query) => {
+    console.log(query);
     return new Promise((resolve, reject) => {
+        let options = {
+            include: [{model: models.Category}],
+            attributes: ['id','name','imagepath','price'],
+            where: {}
+        };
+        if(query.category) {
+            options.where.categoryId = query.category;
+        }
         Product
-            .findAll({ 
-               
-                include: [{model: models.Category}],
-                attributes: ['id','name','imagepath','price']
-            })
+            .findAll(options)
             .then(data => resolve(data))
             .catch(error => reject(new  Error(error)));
     })
@@ -64,7 +69,9 @@ controller.getById = (id) =>{
                     where: {productId: id},
                     include: [{model: models.User}]
                 });
+                
             })
+            
             .then(reviews=>{
                 product.Reviews=reviews;
                 let stars=[];

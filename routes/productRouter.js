@@ -2,6 +2,7 @@ let express = require('express');
 let router = express.Router();
 
 router.get('/',(req, res,next) => {
+
     let categoryController = require('../controllers/categoryController');
     categoryController
         .getAll()
@@ -9,18 +10,18 @@ router.get('/',(req, res,next) => {
             //console.log(data);
             res.locals.categories = data;
             let brandController = require('../controllers/brandController');
-            return brandController.getAll();
+            return brandController.getAll(req.query);
         })
         .then(data => {
             res.locals.brands = data;
             let colorcontroller = require('../controllers/colorController');
-            return colorcontroller.getAll();
+            return colorcontroller.getAll(req.query);
             
         })
         .then(data => {
             res.locals.products = data;
             let productcontroller = require('../controllers/productController');
-            return productcontroller.getAll();
+            return productcontroller.getAll(req.query);
             
         })
         .then(data => {
@@ -38,14 +39,12 @@ router.get('/:id',(req, res,next) => {
     productcontroller
         .getById(req.params.id)
         .then(product => {
-            //console.log(product);
+            //console.log(product.Reviews);
             
             res.locals.product=product;
             res.render('singleproduct');
         })
         .catch(error=> next(error));
-    
-
 })
 
 module.exports = router;
