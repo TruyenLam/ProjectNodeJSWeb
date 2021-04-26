@@ -2,6 +2,15 @@ let express = require('express');
 let router = express.Router();
 
 router.get('/',(req, res,next) => {
+    if((req.query.category) == null || isNaN(req.query.category)) {
+        req.query.category = 0;
+    }
+    if((req.query.brand) == null || isNaN(req.query.brand)) {
+        req.query.brand = 0;
+    }
+    if((req.query.color) == null || isNaN(req.query.color)) {
+        req.query.color = 0;
+    }
 
     let categoryController = require('../controllers/categoryController');
     categoryController
@@ -19,7 +28,8 @@ router.get('/',(req, res,next) => {
             
         })
         .then(data => {
-            res.locals.products = data;
+            //console.log(data);
+            res.locals.colors = data;
             let productcontroller = require('../controllers/productController');
             return productcontroller.getAll(req.query);
             

@@ -11,6 +11,9 @@ var hbs = expressHbs.create({
 	defaultLayout	: 'layout', 
 	layoutsDir		: __dirname + '/views/layouts/',
 	partialsDir		: __dirname + '/views/partials/',
+    runtimeOptions: {
+        allowProtoPropertiesByDefault: true
+    }
 });
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');

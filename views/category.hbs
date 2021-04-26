@@ -1,4 +1,4 @@
-i
+i<script src="/vendors/nouislider/nouislider.min.js"></script>
 	<!-- ================ start banner area ================= -->	
 	{{> banner }}
 	<!-- ================ end banner area ================= -->
@@ -17,8 +17,8 @@ i
                   <ul>
                     {{#each categories}}
                     <li class="filter-list">
-                      <input class="pixel-radio" type="radio" id="men" name="brand">
-                      <label for="men">{{dataValues.name}}</labelspan> ({{dataValues.Products.length}})</span></label>
+                      <input class="pixel-radio" type="radio" id="category{{dataValues.id}}" name="category">
+                      <label for="category{{dataValues.id}}" onclick="selectParam('category',{{dataValues.id}}, true)">{{dataValues.name}}</labelspan> ({{dataValues.Products.length}})</span></label>
                       </li>
                     {{/each}}
                   </ul>
@@ -33,11 +33,11 @@ i
               <form action="#">
                 <ul>
                   {{#each brands}}
-                  <li class="filter-list">
-                    <input class="pixel-radio" type="radio" id="apple" name="brand">
-                    <label for="apple">{{dataValues.name}}<span>({{dataValues.Products.length}})</span></label>
+                    <li class="filter-list">
+                      <input class="pixel-radio" type="radio" id="brand{{dataValues.id}}" name="brand">
+                      <label for="brand{{dataValues.id}}" onclick="selectParam('brand',{{dataValues.id}})">{{dataValues.name}}</labelspan> ({{dataValues.Products.length}})</span></label>
                     </li>
-                  {{/each}}
+                    {{/each}}
                  </ul>
               </form>
             </div>
@@ -46,10 +46,11 @@ i
               <form action="#">
                 <ul>
                   {{#each colors}}
-                  <li class="filter-list"><input class="pixel-radio" type="radio" id="balckleather" name="color"><label for="balckleather">
+                  <li class="filter-list">
+                    <input class="pixel-radio" type="radio" id="color{{dataValues.id}}" onclick="selectParam('color',{{dataValues.id}})" name="color"><label for="color{{dataValues.id}}">
                     {{dataValues.name}}
-                    <span>({{dataValues.ProductColors.length}})</span></label></li>
-
+                    <span>({{dataValues.ProductColors.length}})</span></label>
+                    </li>
                   {{/each}}
                 </ul>
               </form>
@@ -272,4 +273,31 @@ i
     </div>
   </section>
 	<!-- ================ Subscribe section end ================= -->		  
-
+<script>
+  let urlParams = new URLSearchParams(window.location.search);
+  console.log("=================");
+  console.log(urlParams.toString());
+  console.log("=================");
+  let params = {
+    category:0,
+    brand:0,
+    color:0,
+    min:0,
+    max:100
+  };
+  for (let key in params) {
+    if(!urlParams.has(key)) {
+      urlParams.append(key,params[key]);
+    }
+  }
+  function selectParam(key,value, reset = false) {
+    if(reset) {
+      for (let key in params) {
+        urlParams.set(key,params[key]);
+      }
+    }
+    urlParams.set(key,value);
+    let url =`/products?${urlParams.toString()}`;
+    location.href = url;
+  }
+</script>
