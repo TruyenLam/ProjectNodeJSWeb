@@ -33,7 +33,7 @@ router.get('/',(req, res,next) => {
             
         })
         .then(data => {
-            console.log(data);
+            //console.log(data);
             res.locals.colors = data;
             let productcontroller = require('../controllers/productController');
             return productcontroller.getAll(req.query);

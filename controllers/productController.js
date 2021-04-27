@@ -27,8 +27,10 @@ controller.getAll = (query) => {
             include: [{model: models.Category}],
             attributes: ['id','name','imagepath','price'],
             where: {
-                [Op.gte]:query.min,
-                [Op.lte]:query.max
+                price: {
+                    [Op.gte]: query.min,
+                    [Op.lte]: query.max
+                }
             }
         };
         if(query.category>0) {
