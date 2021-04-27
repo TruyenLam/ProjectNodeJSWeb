@@ -5,12 +5,19 @@ let app = express();
 app.use(express.static(__dirname + '/public'));
 
 // View Engine
-var expressHbs = require('express-handlebars');
+let expressHbs = require("express-handlebars");
+let helper = require("./controllers/helper");
+let paginateHelper = require('express-handlebars-paginate'); 
 var hbs = expressHbs.create({
 	extname			: 'hbs',
 	defaultLayout	: 'layout', 
 	layoutsDir		: __dirname + '/views/layouts/',
 	partialsDir		: __dirname + '/views/partials/',
+    helpers: {
+        createStarList: helper.createStarList,
+        createStars : helper.createStars,
+        createPagination: paginateHelper.createPagination
+    },
     runtimeOptions: {
         allowProtoPropertiesByDefault: true
     }
