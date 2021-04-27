@@ -95,7 +95,7 @@ $(function() {
             // until 4000 is reached. From there, step by 1000.
             'min': [ 0 ],
             '10%': [ 10,1 ],
-            '50%': [ 50, 10 ],
+            '50%': [ 50, 1 ],
             'max': [ 100 ]
         }
     });

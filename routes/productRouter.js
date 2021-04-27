@@ -11,7 +11,12 @@ router.get('/',(req, res,next) => {
     if((req.query.color) == null || isNaN(req.query.color)) {
         req.query.color = 0;
     }
-
+    if((req.query.min) == null || isNaN(req.query.min)) {
+        req.query.min = 0;
+    }
+    if((req.query.max) == null || isNaN(req.query.max)) {
+        req.query.max = 100;
+    }
     let categoryController = require('../controllers/categoryController');
     categoryController
         .getAll()
@@ -28,7 +33,7 @@ router.get('/',(req, res,next) => {
             
         })
         .then(data => {
-            //console.log(data);
+            console.log(data);
             res.locals.colors = data;
             let productcontroller = require('../controllers/productController');
             return productcontroller.getAll(req.query);

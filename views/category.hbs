@@ -290,6 +290,12 @@ i<script src="/vendors/nouislider/nouislider.min.js"></script>
       urlParams.append(key,params[key]);
     }
   }
+  for (let key in params) {
+    let control = $(`#${key}${urlParams.get(key)}`);
+    if(control){
+      $(control).prop('checked',true);
+    }
+  }
   function selectParam(key,value, reset = false) {
     if(reset) {
       for (let key in params) {
