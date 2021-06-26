@@ -1,8 +1,6 @@
-i<script src="/vendors/nouislider/nouislider.min.js"></script>
-	<!-- ================ start banner area ================= -->	
-	{{> banner }}
-	<!-- ================ end banner area ================= -->
 
+<script src="/vendors/nouislider/nouislider.min.js"></script>
+{{> banner }}
 
 	<!-- ================ category section start ================= -->		  
   <section class="section-margin--small mb-5">
@@ -15,11 +13,12 @@ i<script src="/vendors/nouislider/nouislider.min.js"></script>
               <li class="common-filter">
                 <form action="#">
                   <ul>
-                    {{#each categories}}
+                   {{#each categories}}
                     <li class="filter-list">
-                      <input class="pixel-radio" type="radio" id="category{{dataValues.id}}" name="category">
-                      <label for="category{{dataValues.id}}" onclick="selectParam('category',{{dataValues.id}}, true)">{{dataValues.name}}</labelspan> ({{dataValues.Products.length}})</span></label>
-                      </li>
+                      <input class="pixel-radio" type="radio" id="category{{dataValues.id}}" name="brand">
+                      <label for="category{{dataValues.id}}" onclick="selectParam('category', {{dataValues.id}}, 'true')">{{dataValues.name}}<span> ({{dataValues.Products.length}})</span>
+                      </label>
+                    </li>
                     {{/each}}
                   </ul>
                 </form>
@@ -32,13 +31,13 @@ i<script src="/vendors/nouislider/nouislider.min.js"></script>
               <div class="head">Brands</div>
               <form action="#">
                 <ul>
-                  {{#each brands}}
-                    <li class="filter-list">
-                      <input class="pixel-radio" type="radio" id="brand{{dataValues.id}}" name="brand">
-                      <label for="brand{{dataValues.id}}" onclick="selectParam('brand',{{dataValues.id}})">{{dataValues.name}}</labelspan> ({{dataValues.Products.length}})</span></label>
-                    </li>
-                    {{/each}}
-                 </ul>
+                   {{#each brands}}
+                  <li class="filter-list"><input class="pixel-radio" type="radio" id="brand{{dataValues.id}}" name="brand">
+                  <label for="brand{{dataValues.id}}" onclick="selectParam('brand',{{dataValues.id}})">{{dataValues.name}}
+                    <span>({{dataValues.Products.length}})</span>
+                  </label></li>
+                  {{/each}}
+                </ul>
               </form>
             </div>
             <div class="common-filter">
@@ -47,10 +46,10 @@ i<script src="/vendors/nouislider/nouislider.min.js"></script>
                 <ul>
                   {{#each colors}}
                   <li class="filter-list">
-                    <input class="pixel-radio" type="radio" id="color{{dataValues.id}}" onclick="selectParam('color',{{dataValues.id}})" name="color"><label for="color{{dataValues.id}}">
-                    {{dataValues.name}}
-                    <span>({{dataValues.ProductColors.length}})</span></label>
-                    </li>
+                    <input class="pixel-radio" type="radio" id="color{{dataValues.id}}" name="color">
+                    <label for="color{{dataValues.id}}" onclick="selectParam('color',{{dataValues.id}})">{{dataValues.name}}<span>({{dataValues.ProductColors.length}})</span>
+                    </label>
+                  </li>
                   {{/each}}
                 </ul>
               </form>
@@ -105,34 +104,16 @@ i<script src="/vendors/nouislider/nouislider.min.js"></script>
             <div class="row">
               {{#each products}}
               <div class="col-md-6 col-lg-4">
-                <div class="card text-center card-product">
-                  <div class="card-product__img">
-                    <img class="card-img" src="{{dataValues.imagepath}}" alt=""/>
-                    <ul class="card-product__imgOverlay">
-                      <li><button><i class="ti-search"></i></button></li>
-                      <li><button><i class="ti-shopping-cart"></i></button></li>
-                      <li><button><i class="ti-heart"></i></button></li>
-                    </ul>
-                  </div>
-                  <div class="card-body">
-                    <p>{{dataValues.Category.name}}</p>
-                    <h4 class="card-product__title"><a href="/products/{{dataValues.id}}">{{dataValues.name}}</a></h4>
-                    <p class="card-product__price">${{dataValues.price}}</p>
-                  </div>
-                </div>
+               {{> product}}
               </div>
               {{/each}}
-              
             </div>
-
             <div class="row justify-content-center">
               <nav aria-label="Page navigation example" id="pagination">
               {{{ createPagination pagination paginationClass="pagination"}}}
               </nav>
             </div>
-
           </section>
-          
           <!-- End Best Seller -->
         </div>
       </div>

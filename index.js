@@ -1,68 +1,96 @@
-let express = require('express');
+let express = require("express");
 let app = express();
 
-//statically
-app.use(express.static(__dirname + '/public'));
+// Set public static folder
+app.use(express.static(__dirname + "/public"));
 
-// View Engine
+// Use View Engine
 let expressHbs = require("express-handlebars");
 let helper = require("./controllers/helper");
 let paginateHelper = require('express-handlebars-paginate'); 
-var hbs = expressHbs.create({
-	extname			: 'hbs',
-	defaultLayout	: 'layout', 
-	layoutsDir		: __dirname + '/views/layouts/',
-	partialsDir		: __dirname + '/views/partials/',
+let hbs = expressHbs.create({
+    extname: 'hbs',
+    defaultLayout: 'layout',
+    layoutsDir: __dirname + "/views/layouts/",
+    partialsDir: __dirname + "/views/partials",
     helpers: {
         createStarList: helper.createStarList,
         createStars : helper.createStars,
         createPagination: paginateHelper.createPagination
-    },
-    runtimeOptions: {
-        allowProtoPropertiesByDefault: true
     }
 });
 app.engine('hbs', hbs.engine);
-app.set('view engine', 'hbs');
+app.set('view engine','hbs');
+// body parser
+let bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:false}));
 
-//cac routes
-// index
+// use cookie
+let cookieParser = require('cookie-parser');
+app.use(cookieParser());
 
-///product => category
+// use session
+let session = require('express-session');
+app.use(session({
+    cookie: {httpOnly:true, maxAge: 30 * 24 * 60 * 60 * 1000},
+    secret: 'S3cret',
+    resave: false,
+    saveUninitialized: false
 
-app.use('/',require('./routes/indexRouter'));
-app.use('/products',require('./routes/productRouter'));
+}));
 
-app.get('/sync', function(req, res) {
-    let models = require('./models');
-    models.sequelize.sync()
-    .then(() =>{
-        res.send('database sync successful');
-    });
+// Use Cart controller
+let Cart = require('./controllers/cartController');
+app.use((req,res, next) =>{
+    var cart = new Cart(req.session.cart ? req.session.cart : {});
+    req.session.cart = cart;
+    res.locals.totalQuantity = cart.totalQuantity;
+    res.locals.fullName = req.session.user ? req.session.user.fullname : "";
+    res.locals.isLoggedIn = req.session.user ? true : false;
+    next();
 });
 
-app.get('/:page', function(req, res) {
-    let banners = {
-        blog :'Out Blog',
-        category :'Shop Category',
-        cart: 'Shopping Cart',
-        singleproduct: 'Shop Single',
-        checkout: 'Product Checkout',
-        confirmation: 'Order Confirmation',
-        tracking_order: 'Order Tracking',
-        single_blog: 'Blog Details',
-        register: 'Register',
-        login: 'Login / Register',
-        contact: 'Contact Us',
-        confirmation: 'Order Confirmation'
-    };
-    let page = req.params.page;
-    //console.log(banners[page]);
-    res.render(page,{banner: banners[page]});
-})
+// Define your router here
+// => Index
+// products => category
+// /products/:id => single-product
 
-//start server
-app.set('port',process.env.PORT || 5000)
-app.listen(app.get('port'),()=>{
-    console.log('listening on port '+app.get('port'));
+app.use('/', require('./routes/indexRouter'));
+app.use('/products', require('./routes/productRouter'));
+app.use('/cart', require('./routes/cartRouter'));
+app.use('/comments', require('./routes/commentRouter'));
+app.use('/reviews', require('./routes/reviewRouter'));
+app.use('/users', require('./routes/userRouter'));
+
+app.get('/sync', (req,res)=>{
+    let models = require('./models');
+    models.sequelize.sync()
+    .then(()=>{
+        res.send('database sync completed!')
+         });
+ });
+
+app.get('/:page', (req, res) => {
+    let banners = {
+        'blog': 'Our Blog',
+        'category': 'Shop Category',
+        'cart': 'Shopping Cart',
+        'checkout': 'Checkout',
+        'confirmation': 'Order Confirmation',
+        'contact': 'Contact Us',
+        'login': 'Login/Register',
+        'register': 'Register',
+        'single-blog': 'Blog Details',
+        'single-product': 'Shop Single',
+        'tracking-order': 'Order Tracking'
+    }
+    let page = req.params.page;
+    res.render(page, {banner: banners[page]});
+});
+
+//set Server Port & Start Server
+app.set('port', process.env.PORT || 5000);
+app.listen(app.get('port'), () => {
+    console.log(`Server is running at post ${app.get('port')}`);
 });

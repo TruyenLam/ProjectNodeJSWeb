@@ -16,7 +16,7 @@ $(function() {
     autoplay:false,
     autoplayTimeout: 5000,
     loop:true,
-    nav:false,
+    nav:true,
     dots:false,
     responsive:{
       0:{
@@ -94,7 +94,7 @@ $(function() {
             // Starting at 500, step the value by 500,
             // until 4000 is reached. From there, step by 1000.
             'min': [ 0 ],
-            '10%': [ 10,1 ],
+            '10%': [ 10, 1 ],
             '50%': [ 50, 1 ],
             'max': [ 100 ]
         }
@@ -113,9 +113,9 @@ $(function() {
     });
     nonLinearSlider.noUiSlider.on('end', function ( values, handle, unencoded, isTap, positions ) {
       let value = values[handle];
-      let key = ['min','max'];
-      selectParam(key[handle], value);
-    });
+      let keys = ['min','max'];
+      selectParam(keys[handle], value);
+  });
   
   }
   
